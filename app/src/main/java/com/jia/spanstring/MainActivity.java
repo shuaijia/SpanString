@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
@@ -46,10 +48,15 @@ public class MainActivity extends AppCompatActivity {
     private void setDifferentColor() {
         tv_diff_color.setText(Html.fromHtml(diff_color));
 
-        tv_link.setMovementMethod( LinkMovementMethod.getInstance());
+        tv_link.setMovementMethod(LinkMovementMethod.getInstance());
         tv_link.setText(Html.fromHtml(link_content));
 
         tv_img.setText(Html.fromHtml(img_content, new NetWorkImageGetter(), null));
+
+        SpannableString spannableString = new SpannableString(
+                "我爱北京天安门，天安门上太阳升 我爱北京天安门，天安门上太阳升");
+        spannableString.setSpan(new FrameSpan(), 0, 7, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tv_biankuang.setText(spannableString);
     }
 
     private void initView() {
@@ -67,7 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Drawable getDrawable(final String source) {
-            return new BitmapDrawable(getbitmap(source));
+            Drawable dra = new BitmapDrawable(getbitmap(source));
+            dra.setBounds(0, 0, dra.getIntrinsicWidth() * 2, dra.getIntrinsicHeight() * 2);
+            return dra;
         }
 
     }
