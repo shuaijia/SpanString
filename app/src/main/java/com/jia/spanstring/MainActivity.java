@@ -1,5 +1,8 @@
 package com.jia.spanstring;
 
+import android.animation.FloatEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Property;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -50,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
         addBox();
 
         setColofulText();
+
+        setColofulAnimText();
+
+        setColofulAnimText();
     }
+
 
     /**
      * 设置不同颜色文字
@@ -62,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 设置超链接
      */
-    private void setLink(){
+    private void setLink() {
         tv_link.setMovementMethod(LinkMovementMethod.getInstance());
         tv_link.setText(Html.fromHtml(link_content));
     }
@@ -70,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 加载网络图片
      */
-    private void setImageLoader(){
+    private void setImageLoader() {
         tv_img.setText(Html.fromHtml(img_content, new NetWorkImageGetter(), null));
     }
 
     /**
      * 给文字加边框
      */
-    private void addBox(){
+    private void addBox() {
         SpannableString spannableString = new SpannableString(
                 "我爱北京天安门，天安门上太阳升 我爱北京天安门，天安门上太阳升");
         spannableString.setSpan(new FrameSpan(), 0, 7, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -87,15 +98,51 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 设置彩色字体
      */
-    private void setColofulText(){
+    private void setColofulText() {
         SpannableString spannableString = new SpannableString(
                 "我爱北京天安门，天安门上太阳升 我爱北京天安门，天安门上太阳升");
-        spannableString.setSpan(new RainbowSpan(this), 0, 20, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableString.setSpan(new RainbowSpan(this), 0, 15, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         tv_color.setText(spannableString);
     }
 
+    /**
+     * 设置彩色动画
+     */
+    private void setColofulAnimText() {
 
+        AnimatedColorSpan span = new AnimatedColorSpan(this);
+        final SpannableString spannableString = new SpannableString(
+                "我爱北京天安门，天安门上太阳升 我爱北京天安门，天安门上太阳升");
+        spannableString.setSpan(span, 0, 15, 0);
 
+        // 设置动画
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(
+                span, ANIMATED_COLOR_SPAN_FLOAT_PROPERTY, 0, 100);
+        objectAnimator.setEvaluator(new FloatEvaluator());
+        objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                tv_color_anim.setText(spannableString);
+            }
+        });
+        objectAnimator.setInterpolator(new LinearInterpolator());
+        objectAnimator.setDuration(DateUtils.MINUTE_IN_MILLIS * 2);
+        objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        objectAnimator.start();
+    }
+
+    private static final Property<AnimatedColorSpan, Float> ANIMATED_COLOR_SPAN_FLOAT_PROPERTY
+            = new Property<AnimatedColorSpan, Float>(Float.class, "ANIMATED_COLOR_SPAN_FLOAT_PROPERTY") {
+        @Override
+        public void set(AnimatedColorSpan span, Float value) {
+            span.setTranslateXPercentage(value);
+        }
+
+        @Override
+        public Float get(AnimatedColorSpan span) {
+            return span.getTranslateXPercentage();
+        }
+    };
 
     private void initView() {
         tv_diff_color = (TextView) findViewById(R.id.tv_diff_color);
