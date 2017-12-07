@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         addTyping();
     }
 
-
     /**
      * 设置不同颜色文字
      */
