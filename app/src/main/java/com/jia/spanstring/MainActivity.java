@@ -26,9 +26,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String link_content = "这是一个超链接\n" +
-            "<a href=\"www.baidu.com\">www.baidu.com</a>";
-
     private TextView tv_diff_color;
     private TextView tv_bg_color;
     private TextView tv_link;
