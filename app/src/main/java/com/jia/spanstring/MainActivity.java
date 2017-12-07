@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
 
-        setDifferentColor();
+        setText();
     }
 
-    private void setDifferentColor() {
+    private void setText() {
         tv_diff_color.setText(Html.fromHtml(diff_color));
 
         tv_link.setMovementMethod(LinkMovementMethod.getInstance());
