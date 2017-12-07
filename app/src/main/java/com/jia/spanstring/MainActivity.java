@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         tv_diff_color.setText(spannableString);
     }
 
+    /**
+     * 设置背景色
+     */
     private void setBackgroundColor() {
         SpannableString spannableString = new SpannableString(
                 "我爱北京天安门，天安门上太阳升 我爱北京天安门，天安门上太阳升");
