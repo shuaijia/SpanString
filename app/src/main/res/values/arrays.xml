@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <array name="splash_bg">
+        <item>@color/light_green_500</item>
+        <item>@color/amber_500</item>
+        <item>@color/red_400</item>
+        <item>@color/blue_500</item>
+    </array>
+
+</resources>
